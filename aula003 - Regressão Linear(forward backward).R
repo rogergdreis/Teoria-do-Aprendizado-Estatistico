@@ -227,14 +227,36 @@ names(dados_e)
 str(dados_e)
 
 # modelo
-modelo_e <- lm(wage ~ age + logwage, data=dados_e)
-formula(modelo_e)
-summary(modelo_e)
+modelo_vazio_e <- lm(wage ~ 1, data = dados_e)
+modelo_completo_e <- lm(wage ~ year + age + logwage, data=dados_e)
+
+# modelo melhorado
+step_forward_e <- step(modelo_vazio_e,
+                       scope = formula(modelo_completo_e),
+                       direction = 'forward',
+                       trace = 0)
+
+step_backward_e <- step(modelo_completo_e,
+                        direction = 'backward',
+                        trace = 0)
+
+step_both_e <- step(modelo_completo_e,
+                    direction = 'both',
+                    trace = 0)
+
+# verificar qual esta melhor
+formula(step_forward_e)
+formula(step_backward_e)
+formula(step_both_e)
+
+summary(step_forward_e)
+summary(step_backward_e)
+summary(step_both_e)
 
 # Y aproximado
-b0_e<-modelo_e$coefficients[1]
-b1_e<-modelo_e$coefficients[2]
-b2_e<-modelo_e$coefficients[3]
+b0_e<-step_forward_e$coefficients[1]
+b1_e<-step_forward_e$coefficients[2]
+b2_e<-step_forward_e$coefficients[3]
 
 yaprox_e<-b0_e+b1_e*dados_e$age+b2_e*dados_e$logwage
 yaprox_e
@@ -246,25 +268,48 @@ names(dados_f)
 str(dados_f)
 
 # modelo
-modelo_f <- lm(Outstate ~ Apps + Accept + Top10perc + F.Undergrad + Room.Board + Personal + Terminal + S.F.Ratio + perc.alumni + Expend + Grad.Rate, data=dados_f)
-formula(modelo_f)
-summary(modelo_f)
+modelo_vazio_f <- lm(Outstate ~ 1, data = dados_f)
+modelo_completo_f <- lm(Outstate ~ Apps + Accept + Enroll + Top10perc + Top25perc + F.Undergrad + P.Undergrad + Room.Board + Books + Personal + PhD + Terminal + S.F.Ratio + perc.alumni + Expend + Grad.Rate, data=dados_f)
+
+# modelo melhorado
+step_forward_f <- step(modelo_vazio_f,
+                       scope = formula(modelo_completo_f),
+                       direction = 'forward',
+                       trace = 0)
+
+step_backward_f <- step(modelo_completo_f,
+                        direction = 'backward',
+                        trace = 0)
+
+step_both_f <- step(modelo_completo_f,
+                    direction = 'both',
+                    trace = 0)
+
+# verificar qual esta melhor
+formula(step_forward_f)
+formula(step_backward_f)
+formula(step_both_f)
+
+summary(step_forward_f)
+summary(step_backward_f)
+summary(step_both_f)
 
 # Y aproximado
-b0_f<-modelo_f$coefficients[1]
-b1_f<-modelo_f$coefficients[2]
-b2_f<-modelo_f$coefficients[3]
-b3_f<-modelo_f$coefficients[4]
-b4_f<-modelo_f$coefficients[5]
-b5_f<-modelo_f$coefficients[6]
-b6_f<-modelo_f$coefficients[7]
-b7_f<-modelo_f$coefficients[8]
-b8_f<-modelo_f$coefficients[9]
-b9_f<-modelo_f$coefficients[10]
-b10_f<-modelo_f$coefficients[11]
-b11_f<-modelo_f$coefficients[12]
+b0_f<-step_forward_f$coefficients[1]
+b1_f<-step_forward_f$coefficients[2]
+b2_f<-step_forward_f$coefficients[3]
+b3_f<-step_forward_f$coefficients[4]
+b4_f<-step_forward_f$coefficients[5]
+b5_f<-step_forward_f$coefficients[6]
+b6_f<-step_forward_f$coefficients[7]
+b7_f<-step_forward_f$coefficients[8]
+b8_f<-step_forward_f$coefficients[9]
+b9_f<-step_forward_f$coefficients[10]
+b10_f<-step_forward_f$coefficients[11]
+b11_f<-step_forward_f$coefficients[12]
+b12_f<-step_forward_f$coefficients[13]
 
-yaprox_f<-b0_f+b1_f*dados_f$Apps+b2_f*dados_f$Accept+b3_f*dados_f$Top10perc+b4_f*dados_f$F.Undergrad+b5_f*dados_f$Room.Board+b6_f*dados_f$Personal+b7_f*dados_f$Terminal+b8_f*dados_f$S.F.Ratio+b9_f*dados_f$perc.alumni+b10_f*dados_f$Expend+b11_f*dados_f$Grad.Rate
+yaprox_f<-b0_f+b1_f*dados_f$Expend+b2_f*dados_f$Room.Board+b3_f*dados_f$perc.alumni+b4_f*dados_f$Grad.Rate+b5_f*dados_f$F.Undergrad+b6_f*dados_f$Accept+b7_f*dados_f$Apps+b8_f*dados_f$Top10perc+b9_f*dados_f$S.F.Ratio+b10_f*dados_f$Terminal+b11_f*dados_f$Personal+b12_f*dados_f$Enroll
 yaprox_f
 
 # g) ISRL2::OJ, definindo como variável dependente PriceMM()
@@ -274,14 +319,36 @@ names(dados_g)
 str(dados_g)
 
 # modelo
-modelo_g <- lm(PriceMM ~ DiscMM + SalePriceMM, data=dados_g)
-formula(modelo_g)
-summary(modelo_g)
+modelo_vazio_g <- lm(PriceMM ~ 1, data = dados_g)
+modelo_completo_g <- lm(PriceMM ~ WeekofPurchase + StoreID + PriceCH + DiscCH + DiscMM + SpecialCH + SpecialMM + LoyalCH + SalePriceMM + SalePriceCH + PriceDiff + PctDiscMM + PctDiscCH + ListPriceDiff + STORE, data=dados_g)
+
+# modelo melhorado
+step_forward_g <- step(modelo_vazio_g,
+                       scope = formula(modelo_completo_g),
+                       direction = 'forward',
+                       trace = 0)
+
+step_backward_g <- step(modelo_completo_g,
+                        direction = 'backward',
+                        trace = 0)
+
+step_both_g <- step(modelo_completo_g,
+                    direction = 'both',
+                    trace = 0)
+
+# verificar qual esta melhor
+formula(step_forward_g)
+formula(step_backward_g)
+formula(step_both_g)
+
+summary(step_forward_g)
+summary(step_backward_g)
+summary(step_both_g)
 
 # Y aproximado
-b0_g<-modelo_g$coefficients[1]
-b1_g<-modelo_g$coefficients[2]
-b2_g<-modelo_g$coefficients[3]
+b0_g<-step_forward_g$coefficients[1]
+b1_g<-step_forward_g$coefficients[2]
+b2_g<-step_forward_g$coefficients[3]
 
-yaprox_g<-b0_g+b1_g*dados_g$DiscMM+b2_g*dados_g$SalePriceMM
+yaprox_g<-b0_g+b1_g*dados_g$ListPriceDiff+b2_g*dados_g$PriceCH
 yaprox_g
