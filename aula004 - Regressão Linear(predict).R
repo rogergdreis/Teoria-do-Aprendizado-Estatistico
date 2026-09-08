@@ -231,10 +231,10 @@ predicaodados_c <- data.frame(Balance = dados_c$Balance,
 predicaodados_c
 
 # calcular o R
-RSS_b <- sum((dados_b$Sales-predicaodados_b$predicao1)^2)
-TSS_b <- sum((dados_b$Sales-mean(dados_b$Sales))^2)
-Rquadrado_b <- 1-RSS_b/TSS_b
-Rquadrado_b
+RSS_c <- sum((dados_c$Balance-predicaodados_c$predicao1)^2)
+TSS_c <- sum((dados_c$Balance-mean(dados_c$Balance))^2)
+Rquadrado_c <- 1-RSS_c/TSS_c
+Rquadrado_c
 
 # d) ISRL::Hitters, definindo como variável dependente salary(salário dos jogadores de beisebol)
 # carregando os dados
@@ -269,7 +269,7 @@ summary(step_forward_d)
 summary(step_backward_d)
 summary(step_both_d)
 
-# Y aproximado
+# predição manual
 b0_d<-step_forward_d$coefficients[1]
 b1_d<-step_forward_d$coefficients[2]
 b2_d<-step_forward_d$coefficients[3]
@@ -277,8 +277,23 @@ b3_d<-step_forward_d$coefficients[4]
 b4_d<-step_forward_d$coefficients[5]
 b5_d<-step_forward_d$coefficients[6]
 
-yaprox_d<-b0_d+b1_d*dados_d$CRBI+b2_d*dados_d$Hits+b3_d*dados_d$PutOuts+b4_d*dados_d$AtBat+b5_d*dados_d$Walks
-yaprox_d
+predicao_d2<-b0_d+b1_d*dados_d$CRBI+b2_d*dados_d$Hits+b3_d*dados_d$PutOuts+b4_d*dados_d$AtBat+b5_d*dados_d$Walks
+predicao_d2
+
+# predição
+predicao_d1 <- predict(step_forward_d, newdata = dados_d)
+predicao_d1
+
+predicaodados_d <- data.frame(Salary = dados_d$Salary,
+                              predicao1 = predicao_d1,
+                              predicao2 = predicao_d2)
+predicaodados_d
+
+# calcular o R
+RSS_d <- sum((dados_d$Salary-predicaodados_d$predicao1)^2)
+TSS_d <- sum((dados_d$Salary-mean(dados_d$Salary))^2)
+Rquadrado_d <- 1-RSS_d/TSS_d
+Rquadrado_d
 
 # e) ISLR2::Wage, definindo como variável dependente wage(salário)
 # carregando os dados
@@ -313,13 +328,28 @@ summary(step_forward_e)
 summary(step_backward_e)
 summary(step_both_e)
 
-# Y aproximado
+# predição manual
 b0_e<-step_forward_e$coefficients[1]
 b1_e<-step_forward_e$coefficients[2]
 b2_e<-step_forward_e$coefficients[3]
 
-yaprox_e<-b0_e+b1_e*dados_e$age+b2_e*dados_e$logwage
-yaprox_e
+predicao_e2<-b0_e+b1_e*dados_e$logwage+b2_e*dados_e$age
+predicao_e2
+
+# predição
+predicao_e1 <- predict(step_forward_e, newdata = dados_e)
+predicao_e1
+
+predicaodados_e <- data.frame(wage = dados_e$wage,
+                              predicao1 = predicao_e1,
+                              predicao2 = predicao_e2)
+predicaodados_e
+
+# calcular o R
+RSS_e <- sum((dados_e$wage-predicaodados_e$predicao1)^2)
+TSS_e <- sum((dados_e$wage-mean(dados_e$wage))^2)
+Rquadrado_e <- 1-RSS_e/TSS_e
+Rquadrado_e
 
 # f) ISLR2::College, definindo como variável dependente outstate(mensalidade de aluno de fora do estado)
 # carregando os dados
@@ -354,7 +384,7 @@ summary(step_forward_f)
 summary(step_backward_f)
 summary(step_both_f)
 
-# Y aproximado
+# predição manual
 b0_f<-step_forward_f$coefficients[1]
 b1_f<-step_forward_f$coefficients[2]
 b2_f<-step_forward_f$coefficients[3]
@@ -369,8 +399,23 @@ b10_f<-step_forward_f$coefficients[11]
 b11_f<-step_forward_f$coefficients[12]
 b12_f<-step_forward_f$coefficients[13]
 
-yaprox_f<-b0_f+b1_f*dados_f$Expend+b2_f*dados_f$Room.Board+b3_f*dados_f$perc.alumni+b4_f*dados_f$Grad.Rate+b5_f*dados_f$F.Undergrad+b6_f*dados_f$Accept+b7_f*dados_f$Apps+b8_f*dados_f$Top10perc+b9_f*dados_f$S.F.Ratio+b10_f*dados_f$Terminal+b11_f*dados_f$Personal+b12_f*dados_f$Enroll
-yaprox_f
+predicao_f2<-b0_f+b1_f*dados_f$Expend+b2_f*dados_f$Room.Board+b3_f*dados_f$perc.alumni+b4_f*dados_f$Grad.Rate+b5_f*dados_f$F.Undergrad+b6_f*dados_f$Accept+b7_f*dados_f$Apps+b8_f*dados_f$Top10perc+b9_f*dados_f$S.F.Ratio+b10_f*dados_f$Terminal+b11_f*dados_f$Personal+b12_f*dados_f$Enroll
+predicao_f2
+
+# predição
+predicao_f1 <- predict(step_forward_f, newdata = dados_f)
+predicao_f1
+
+predicaodados_f <- data.frame(Outstate = dados_f$Outstate,
+                              predicao1 = predicao_f1,
+                              predicao2 = predicao_f2)
+predicaodados_f
+
+# calcular o R
+RSS_f <- sum((dados_f$Outstate-predicaodados_f$predicao1)^2)
+TSS_f <- sum((dados_f$Outstate-mean(dados_f$Outstate))^2)
+Rquadrado_f <- 1-RSS_f/TSS_f
+Rquadrado_f
 
 # g) ISRL2::OJ, definindo como variável dependente PriceMM()
 # carregando os dados
@@ -405,10 +450,25 @@ summary(step_forward_g)
 summary(step_backward_g)
 summary(step_both_g)
 
-# Y aproximado
+# predição manual
 b0_g<-step_forward_g$coefficients[1]
 b1_g<-step_forward_g$coefficients[2]
 b2_g<-step_forward_g$coefficients[3]
 
-yaprox_g<-b0_g+b1_g*dados_g$ListPriceDiff+b2_g*dados_g$PriceCH
-yaprox_g
+predicao_g2<-b0_g+b1_g*dados_g$ListPriceDiff+b2_g*dados_g$PriceCH
+predicao_g2
+
+# predição
+predicao_g1 <- predict(step_forward_g, newdata = dados_g)
+predicao_g1
+
+predicaodados_g <- data.frame(PriceMM = dados_g$PriceMM,
+                              predicao1 = predicao_g1,
+                              predicao2 = predicao_g2)
+predicaodados_g
+
+# calcular o R
+RSS_g <- sum((dados_g$PriceMM-predicaodados_g$predicao1)^2)
+TSS_g <- sum((dados_g$PriceMM-mean(dados_g$PriceMM))^2)
+Rquadrado_g <- 1-RSS_g/TSS_g
+Rquadrado_g
