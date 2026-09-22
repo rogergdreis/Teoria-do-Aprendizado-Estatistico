@@ -111,7 +111,7 @@ step_both_b <- step(modelo_completo_b,
 # verificar qual esta melhor
 formula(step_forward_b)
 formula(step_backward_b)
-# formula(step_both_b)
+formula(step_both_b)
 
 summary(step_forward_b)
 summary(step_backward_b)
