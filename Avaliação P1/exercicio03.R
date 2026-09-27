@@ -28,45 +28,47 @@
 rm(list=ls())
 
 # BIBLIOTECAS ==================================================================
-library(funModeling)
+library(readr)
 
 # CARREGAR OS DADOS ============================================================
-# URL oficial do dataset de Cleveland
-url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
+PATH <- "/home/roger/Documentos/Teoria do Aprendizado Estatistico/Avaliação P1"
+setwd(PATH)
 
-# Nomes das 14 variáveis originais
-nomes_colunas <- c("age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", 
-                   "thalach", "exang", "oldpeak", "slope", "ca", "thal", "target")
-
-# Importa os dados tratando os valores "?" como NA
-dados <- read.csv(url, header = FALSE, col.names = nomes_colunas, na.strings = "?")
-
-# Confere se a variável target está lá
+dados <- read_csv("heart_disease_uci.csv", locale = locale(encoding = "LATIN1"))
+dados <- as.data.frame(dados)
 names(dados)
 str(dados)
 
-# Gerando aleatório
-nrow(dados_d)
-seq_len(nrow(dados_d))
+dados$sex <- as.factor(dados$sex)
+dados$cp <- as.factor(dados$cp)
+dados$fbs <- as.factor(dados$fbs)
+dados$restecg <- as.factor(dados$restecg)
+dados$exang <- as.factor(dados$exang)
+dados$slope <- as.factor(dados$slope)
+dados$ca <- as.factor(dados$ca)
+dados$thal <- as.factor(dados$thal)
+dados$target <- as.factor(dados$target)
 
-# Separando em treino e teste
+str(dados)
+
+# SEPARANDO EM TREINO E TESTE ==================================================
 set.seed(123) # reprodutibilidade
-particao_d <- sample(seq_len(nrow(dados_d)), size = 0.7 * nrow(dados_d))
-dados_treino_d <- dados_d[particao_d, ]
-dados_teste_d <- dados_d[-particao_d, ]
-prop.table(table(dados_treino_d$Purchase))
-prop.table(table(dados_teste_d$Purchase))
+particao <- sample(seq_len(nrow(dados)), size = 0.7 * nrow(dados))
+dados_treino <- dados[particao, ]
+dados_teste <- dados[-particao, ]
+prop.table(table(dados_treino$target))
+prop.table(table(dados_teste$target))
 
-# Gerando o modelo
-modelo_d <- glm(Purchase~.,
-                data = dados_treino_d,
+# GERANDO MODELO ===============================================================
+modelo <- glm(target~.,
+                data = dados_treino,
                 family = binomial())
-formula(modelo_d)
-summary(modelo_d)
+formula(modelo)
+summary(modelo)
 
-# Predição
-prob_modelo_d <- predict(modelo_d,
-                         newdata = dados_teste_d,
+# PREDIÇÃO =====================================================================
+prob_modelo <- predict(modelo,
+                         newdata = dados_teste,
                          type = "response")
 
-prob_modelo_d
+prob_modelo
