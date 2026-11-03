@@ -45,6 +45,7 @@ novos<-data.frame(
   estadocivil = as.factor(c("solteiro","solteiro","casado")),
   renda       = c(3000, 6000, 2500)
 )
+
 novos
 
 #predicao
@@ -58,6 +59,25 @@ pred_novos_classes
 novos$credito<-pred_novos_classes
 
 novos
+
+# Exibir tabela de complexidade
+arvore001$cptable
+printcp(arvore001)
+plotcp(arvore001) # gráfico de erro x cp
+
+arvore001$cptable[,'xerror']
+
+# Selecionar cp ótimo
+cp_otimo <- arvore001$cptable[which.min(arvore001$cptable[,'xerror']), 'CP']
+cp_otimo
+
+# Podar a árvore
+arvore001_podada <- prune(arvore001, cp = cp_otimo)
+
+# Visualizar árvores
+rpart.plot(arvore001, main = "Árvore Completa")
+rpart.plot(arvore001_podada, main = "Árvore Podada (CP ótimo)")
+
 #Exercícios
 # 1) Carseats — prever ShelveLoc (Bad/Medium/Good)
 dados_carset <- ISLR::Carseats
