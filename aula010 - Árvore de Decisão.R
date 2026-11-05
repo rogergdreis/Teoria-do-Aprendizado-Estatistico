@@ -80,19 +80,21 @@ rpart.plot(arvore001_podada, main = "Árvore Podada (CP ótimo)")
 
 #Exercícios
 # 1) Carseats — prever ShelveLoc (Bad/Medium/Good)
-dados_carset <- ISLR::Carseats
-dados_carset
-str(dados_carset)
+
+dados_carseats <- ISLR::Carseats
+
+dados_carseats
+str(dados_carseats)
 
 ## Treino / Teste (70% / 30%)
-n <- nrow(dados_carset)
-particao_carset <- sample(seq_len(n), size = 0.7 * n)
-treino_carset <- dados_carset[particao_carset, ]
-teste_carset <- dados_carset[-particao_carset, ]
+n <- nrow(dados_carseats)
+particao_carseats <- sample(seq_len(n), size = 0.7 * n)
+treino_carseats <- dados_carseats[particao_carseats, ]
+teste_carseats <- dados_carseats[-particao_carseats, ]
 
 # Criterio GINI
-arvore_carset <- rpart(formula = ShelveLoc ~ .,
-                   data = treino_carset,
+arvore_carseats <- rpart(formula = ShelveLoc ~ .,
+                   data = treino_carseats,
                    method = "class",
                    parms = list(split = "gini"),
                    control = rpart.control(cp = 0.0,      # ou "information" para entropia
@@ -102,10 +104,10 @@ arvore_carset <- rpart(formula = ShelveLoc ~ .,
                                            xval = 10
                    ))
 
-arvore_carset
+arvore_carseats
 
 #grafico
-rpart.plot(arvore_carset,
+rpart.plot(arvore_carseats,
            type = 3,
            extra = 104,
            under = T,
@@ -114,22 +116,22 @@ rpart.plot(arvore_carset,
            main = "Arvore"
 )
 
-summary(dados_carset)
+summary(dados_carseats)
 
 # teste para predicao
-teste_carset
+teste_carseats
 
 #predicao
-pred_carset  <- predict(arvore_carset,
-                               teste_carset,
+pred_carseats  <- predict(arvore_carseats,
+                               teste_carseats,
                                type="class")
 
-pred_carset
+pred_carseats
 
 #criando novo dataframe
-teste_carset$predicao<-pred_carset
+teste_carseats$predicao<-pred_carseats
 
-teste_carset
+teste_carseats
 
 # 2) College — prever Private (No/Yes)
 dados_college <- ISLR::College
